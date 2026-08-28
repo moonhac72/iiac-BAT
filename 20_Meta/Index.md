@@ -13,3 +13,4 @@
 ## 🚀 Skills (스킬 및 운영지침)
 - [야통대 운영지침 (CLAUDE.md)](file:///Users/m4/%EC%95%BC%EC%83%9D%EB%8F%99%EB%AC%BC%ED%86%B5%EC%A0%9C%EB%8C%80%20%EC%97%85%EB%AC%B4/CLAUDE.md)
 - [야통대 운영지침 복사본](file:///Users/m4/%EC%95%BC%EC%83%9D%EB%8F%99%EB%AC%BC%ED%86%B5%EC%A0%9C%EB%8C%80%20%EC%97%85%EB%AC%B4/10_Wiki/%F0%9F%9A%80%20Skills/%EC%95%BC%ED%86%B5%EB%8C%80_%EC%9B%B4%EC%98%81%EC%A7%80%EC%B1%A4.md)
+- [네이버 블로그 자동 비공개 업로더](file:///Users/m4/%EC%95%BC%EC%83%9D%EB%8F%99%EB%AC%BC%ED%86%B5%EC%A0%9C%EB%8C%80%20%EC%97%85%EB%AC%B4/20_Meta/naver_blog_uploader.py)
