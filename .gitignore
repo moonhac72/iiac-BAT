@@ -1,4 +1,4 @@
-# Operating System Files
+# Operating System & System Files
 .DS_Store
 .DS_Store?
 ._*
@@ -7,7 +7,11 @@
 ehthumbs.db
 Thumbs.db
 
-# Gemini / Antigravity IDE temporary files
+# Antigravity IDE & AI & Cache
 .gemini/
+.obsidian/
+.trash/
+node_modules/
+.cache/
 *.tmp
 *.log
