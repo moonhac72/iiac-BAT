@@ -16,3 +16,8 @@ $$R = w_1(\text{Categorization Accuracy: 0.4}) + w_2(\text{Graph Connectivity: 0
 
 3. **Flat Directory Rule (신문기사 및 브리핑)**:
    - 브리핑 및 주제별 분석 보고서는 대분류 폴더 직하위에 `YYYY-MM-DD_제목.md` 형태로 수록한다.
+
+4. **YAML Frontmatter & 날짜 다변화 메타데이터 수록 규칙 (RAG 검색 최적화)**:
+   - 모든 신규 일지/보고서 최상단에 YAML Frontmatter (`date`, `category`, `source`, `tags`)를 필수로 포함한다.
+   - AI 임베딩 및 검색 누락률 80% 이상 감소를 위해 `tags` 및 문서 상단에 날짜 표기(`YYYY-MM`, `YYYY년 M월`, `M월` 등)를 다각도로 중복 수록하여 메타데이터 필터링 정밀도를 극대화한다.
+
