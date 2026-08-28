@@ -1,0 +1,10 @@
+{
+  "nodes": [
+    { "id": "10_Wiki/🛠️ Projects/야통대_자료", "label": "야통대 자료 프로젝트", "type": "project" },
+    { "id": "10_Wiki/🛠️ Projects/E-Book_집필보관소", "label": "E-Book 집필 보관소", "type": "project" },
+    { "id": "10_Wiki/💡 Topics/주간브리핑", "label": "주간 브리핑 지식", "type": "topic" },
+    { "id": "10_Wiki/💡 Topics/월간브리핑", "label": "월간 브리핑 지식", "type": "topic" },
+    { "id": "10_Wiki/💡 Topics/분석_보고서", "label": "전문 분석 보고서", "type": "topic" }
+  ],
+  "links": []
+}
