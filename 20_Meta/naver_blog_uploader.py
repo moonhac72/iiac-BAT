@@ -99,22 +99,28 @@ def upload_to_naver_blog(file_path, is_private=True, headless=False, category_na
             page.goto(WRITE_URL, wait_until="networkidle")
             time.sleep(3)
 
-        print("📝 스마트에디터 ONE 진입 완료. 에디터 안내/팝업 닫기...")
+        print("📝 스마트에디터 ONE 진입 중 (iframe mainFrame 감지)...")
         
+        # iframe mainFrame 조작 지원
+        if page.locator("#mainFrame").count() > 0:
+            frame = page.frame_locator("#mainFrame")
+        else:
+            frame = page
+
+        time.sleep(2)
+
         # 작성 중인 글 취소 / 도움말 팝업 닫기
         try:
-            # 작성 이어서 하기 취소 버튼 클릭시
-            cancel_btn = page.query_selector('.se-popup-button-cancel')
-            if cancel_btn:
+            cancel_btn = frame.locator('.se-popup-button-cancel')
+            if cancel_btn.count() > 0:
                 cancel_btn.click()
                 time.sleep(1)
         except Exception:
             pass
 
         try:
-            # 도움말 닫기 버튼
-            help_close = page.query_selector('.se-help-panel-close-button')
-            if help_close:
+            help_close = frame.locator('.se-help-panel-close-button')
+            if help_close.count() > 0:
                 help_close.click()
                 time.sleep(1)
         except Exception:
@@ -123,24 +129,25 @@ def upload_to_naver_blog(file_path, is_private=True, headless=False, category_na
         # 1. 제목 입력
         print("✍️ 제목 입력 중...")
         try:
-            title_container = page.wait_for_selector('.se-document-title', timeout=5000)
-            if title_container:
-                title_container.click()
+            title_el = frame.locator('.se-document-title, div.se-module-text.se-title-text, .se-component-title')
+            if title_el.count() > 0:
+                title_el.first.click()
                 time.sleep(0.5)
                 page.keyboard.insert_text(title)
+            else:
+                page.click('body')
+                page.keyboard.insert_text(title)
         except Exception as e:
-            print(f"⚠️ 제목 자동 입력 시도 (대체 방식): {e}")
-            page.click('p.se-text-paragraph-align-left', timeout=3000)
-            page.keyboard.insert_text(title)
+            print(f"⚠️ 제목 입력 시도: {e}")
 
         time.sleep(1)
 
         # 2. 본문 입력
         print("✍️ 본문 내용 작성 중...")
         try:
-            main_container = page.wait_for_selector('.se-main-container', timeout=5000)
-            if main_container:
-                main_container.click()
+            main_el = frame.locator('.se-main-container, .se-component-text, .se-content')
+            if main_el.count() > 0:
+                main_el.first.click()
                 time.sleep(0.5)
                 
                 # 본문 텍스트를 단락별로 깔끔하게 입력
@@ -151,40 +158,40 @@ def upload_to_naver_blog(file_path, is_private=True, headless=False, category_na
                     page.keyboard.press("Enter")
                     time.sleep(0.05)
         except Exception as e:
-            print(f"⚠️ 본문 입력 중 참고: {e}")
+            print(f"⚠️ 본문 입력 시도: {e}")
 
         time.sleep(2)
 
         # 3. 발행 버튼 클릭
-        print("🚀 [발행] 설정 열기...")
+        print("🚀 [발행] 설정 레이어 호출...")
         try:
-            publish_btn = page.wait_for_selector('button.btn_publish, .se-publish-button', timeout=5000)
-            if publish_btn:
-                publish_btn.click()
+            publish_btn = frame.locator('button.btn_publish, .se-publish-button, button:has-text("발행")')
+            if publish_btn.count() > 0:
+                publish_btn.first.click()
                 time.sleep(2)
 
-                # 4. 비공개 설정 클릭 (기본비공개)
+                # 4. 비공개 설정 클릭
                 if is_private:
                     print("🔒 '비공개' 옵션 선택 중...")
                     try:
-                        private_option = page.query_selector('input[value="secret"], label:has-text("비공개")')
-                        if private_option:
-                            private_option.click()
+                        secret_radio = frame.locator('label:has-text("비공개"), input[value="secret"]')
+                        if secret_radio.count() > 0:
+                            secret_radio.first.click()
                             time.sleep(1)
                     except Exception:
                         pass
 
-                # 5. 최종 발행하기 버튼 클릭
-                print("✅ 최종 [비공개 발행] 실행 중...")
-                confirm_publish = page.query_selector('button.confirm, button.btn_confirm, button:has-text("발행하기")')
-                if confirm_publish:
-                    confirm_publish.click()
+                # 5. 최종 발행 버튼 클릭
+                print("✅ 최종 [비공개 발행] 실행...")
+                confirm_btn = frame.locator('button.btn_confirm, button:has-text("발행하기")')
+                if confirm_btn.count() > 0:
+                    confirm_btn.first.click()
                     time.sleep(4)
-                    print("🎉 네이버 블로그에 성공적으로 비공개로 저장되었습니다!")
+                    print("🎉 네이버 블로그에 비공개로 성공적으로 업로드되었습니다!")
         except Exception as e:
-            print(f"⚠️ 발행 레이어 클릭 참고: {e}")
-            print("💡 브라우저 창에서 제목 및 본문 입력을 최종 확인해 주세요!")
+            print(f"⚠️ 발행 레이어 확인: {e}")
 
+        print("💡 업로드 작업이 마무리되었습니다. 브라우저 창을 확인해 주세요!")
         time.sleep(3)
         context.close()
 
