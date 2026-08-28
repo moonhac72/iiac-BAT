@@ -165,29 +165,37 @@ def upload_to_naver_blog(file_path, is_private=True, headless=False, category_na
         # 3. 발행 버튼 클릭
         print("🚀 [발행] 설정 레이어 호출...")
         try:
-            publish_btn = frame.locator('button.btn_publish, .se-publish-button, button:has-text("발행")')
-            if publish_btn.count() > 0:
-                publish_btn.first.click()
+            # frame 및 page 모두에서 발행 버튼 검색
+            publish_btn = None
+            for target_env in [frame, page]:
+                btn = target_env.locator('button[data-click-area*="publish"], button.publish_btn__m9_pp, button.btn_publish, .se-publish-button, button:has-text("발행")')
+                if btn.count() > 0:
+                    publish_btn = btn.first
+                    break
+
+            if publish_btn and publish_btn.is_visible():
+                publish_btn.click()
                 time.sleep(2)
 
                 # 4. 비공개 설정 클릭
                 if is_private:
                     print("🔒 '비공개' 옵션 선택 중...")
-                    try:
-                        secret_radio = frame.locator('label:has-text("비공개"), input[value="secret"]')
+                    for target_env in [frame, page]:
+                        secret_radio = target_env.locator('label:has-text("비공개"), input[value="secret"]')
                         if secret_radio.count() > 0:
                             secret_radio.first.click()
                             time.sleep(1)
-                    except Exception:
-                        pass
+                            break
 
                 # 5. 최종 발행 버튼 클릭
                 print("✅ 최종 [비공개 발행] 실행...")
-                confirm_btn = frame.locator('button.btn_confirm, button:has-text("발행하기")')
-                if confirm_btn.count() > 0:
-                    confirm_btn.first.click()
-                    time.sleep(4)
-                    print("🎉 네이버 블로그에 비공개로 성공적으로 업로드되었습니다!")
+                for target_env in [frame, page]:
+                    confirm_btn = target_env.locator('button.btn_confirm, button[data-click-area*="confirm"], button:has-text("발행하기")')
+                    if confirm_btn.count() > 0:
+                        confirm_btn.first.click()
+                        time.sleep(4)
+                        print("🎉 네이버 블로그에 비공개로 성공적으로 업로드되었습니다!")
+                        break
         except Exception as e:
             print(f"⚠️ 발행 레이어 확인: {e}")
 
