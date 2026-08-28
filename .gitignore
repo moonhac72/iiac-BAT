@@ -7,11 +7,13 @@
 ehthumbs.db
 Thumbs.db
 
-# Antigravity IDE & AI & Cache
+# Antigravity IDE & AI & Cache & Browser Sessions
 .gemini/
 .obsidian/
 .trash/
 node_modules/
 .cache/
+.naver_user_data/
 *.tmp
 *.log
+
