@@ -89,18 +89,103 @@ def upload_to_naver_blog(file_path, is_private=True, headless=False, category_na
         # 네이버 블로그 에디터 페이지 접속
         print(f"🌐 [{BLOG_NAME}] 스마트에디터 접속 중... ({WRITE_URL})")
         page.goto(WRITE_URL, wait_until="networkidle")
-        time.sleep(2)
+        time.sleep(3)
 
         # 로그인 여부 확인
         if "nid.naver.com" in page.url or "login" in page.url:
             print("⚠️ 네이버 로그인이 필요합니다!")
             print(f"💡 네이버 ID [{NAVER_ID}]로 열린 브라우저 창에서 로그인 후 Enter 키를 눌러주세요...")
             input("로그인 완료 후 엔터를 입력하세요: ")
+            page.goto(WRITE_URL, wait_until="networkidle")
+            time.sleep(3)
 
-        print("📝 글 작성 페이지 진입 확인...")
+        print("📝 스마트에디터 ONE 진입 완료. 에디터 안내/팝업 닫기...")
+        
+        # 작성 중인 글 취소 / 도움말 팝업 닫기
+        try:
+            # 작성 이어서 하기 취소 버튼 클릭시
+            cancel_btn = page.query_selector('.se-popup-button-cancel')
+            if cancel_btn:
+                cancel_btn.click()
+                time.sleep(1)
+        except Exception:
+            pass
+
+        try:
+            # 도움말 닫기 버튼
+            help_close = page.query_selector('.se-help-panel-close-button')
+            if help_close:
+                help_close.click()
+                time.sleep(1)
+        except Exception:
+            pass
+
+        # 1. 제목 입력
+        print("✍️ 제목 입력 중...")
+        try:
+            title_container = page.wait_for_selector('.se-document-title', timeout=5000)
+            if title_container:
+                title_container.click()
+                time.sleep(0.5)
+                page.keyboard.insert_text(title)
+        except Exception as e:
+            print(f"⚠️ 제목 자동 입력 시도 (대체 방식): {e}")
+            page.click('p.se-text-paragraph-align-left', timeout=3000)
+            page.keyboard.insert_text(title)
+
+        time.sleep(1)
+
+        # 2. 본문 입력
+        print("✍️ 본문 내용 작성 중...")
+        try:
+            main_container = page.wait_for_selector('.se-main-container', timeout=5000)
+            if main_container:
+                main_container.click()
+                time.sleep(0.5)
+                
+                # 본문 텍스트를 단락별로 깔끔하게 입력
+                paragraphs = body.split('\n')
+                for p_text in paragraphs:
+                    if p_text.strip():
+                        page.keyboard.insert_text(p_text.strip())
+                    page.keyboard.press("Enter")
+                    time.sleep(0.05)
+        except Exception as e:
+            print(f"⚠️ 본문 입력 중 참고: {e}")
+
         time.sleep(2)
 
-        print("✅ 네이버 블로그 포스팅 준비가 완료되었습니다.")
+        # 3. 발행 버튼 클릭
+        print("🚀 [발행] 설정 열기...")
+        try:
+            publish_btn = page.wait_for_selector('button.btn_publish, .se-publish-button', timeout=5000)
+            if publish_btn:
+                publish_btn.click()
+                time.sleep(2)
+
+                # 4. 비공개 설정 클릭 (기본비공개)
+                if is_private:
+                    print("🔒 '비공개' 옵션 선택 중...")
+                    try:
+                        private_option = page.query_selector('input[value="secret"], label:has-text("비공개")')
+                        if private_option:
+                            private_option.click()
+                            time.sleep(1)
+                    except Exception:
+                        pass
+
+                # 5. 최종 발행하기 버튼 클릭
+                print("✅ 최종 [비공개 발행] 실행 중...")
+                confirm_publish = page.query_selector('button.confirm, button.btn_confirm, button:has-text("발행하기")')
+                if confirm_publish:
+                    confirm_publish.click()
+                    time.sleep(4)
+                    print("🎉 네이버 블로그에 성공적으로 비공개로 저장되었습니다!")
+        except Exception as e:
+            print(f"⚠️ 발행 레이어 클릭 참고: {e}")
+            print("💡 브라우저 창에서 제목 및 본문 입력을 최종 확인해 주세요!")
+
+        time.sleep(3)
         context.close()
 
 def main():
