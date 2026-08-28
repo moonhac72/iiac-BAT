@@ -21,3 +21,10 @@ $$R = w_1(\text{Categorization Accuracy: 0.4}) + w_2(\text{Graph Connectivity: 0
    - 모든 신규 일지/보고서 최상단에 YAML Frontmatter (`date`, `category`, `source`, `tags`)를 필수로 포함한다.
    - AI 임베딩 및 검색 누락률 80% 이상 감소를 위해 `tags` 및 문서 상단에 날짜 표기(`YYYY-MM`, `YYYY년 M월`, `M월` 등)를 다각도로 중복 수록하여 메타데이터 필터링 정밀도를 극대화한다.
 
+5. **네이버 블로그 자동 연동 정보 (`보물지도`)**:
+   - 네이버 계정 ID: `moonhac72`
+   - 네이버 블로그명: `보물지도` (`https://blog.naver.com/moonhac72`)
+   - 전용 카테고리: `야생동물통제대` (신규 카테고리로 비공개 자동 지정 저장)
+   - 실행 스크립트: `20_Meta/naver_blog_uploader.py`
+
+
