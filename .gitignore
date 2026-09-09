@@ -16,3 +16,5 @@ node_modules/
 .naver_user_data/
 *.tmp
 *.log
+_data_raw/
+
