@@ -11,14 +11,10 @@
             "id": "078e9d91b4f09a42",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "10_Wiki/🛠️ Projects/야통대_자료/2025년도 야통대/네이버블로그_포스팅/2025-01-02_네이버블로그_포스트.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "2025-01-02_네이버블로그_포스트"
+              "title": "새 탭"
             }
           }
         ]
@@ -189,6 +185,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "obsidian-git:Open Git source control": false,
       "switcher:빠른 전환기 열기": false,
       "graph:그래프 뷰 열기": false,
       "canvas:새 캔버스 만들기": false,
