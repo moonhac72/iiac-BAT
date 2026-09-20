@@ -40,6 +40,11 @@ Memory is limited. "Mental notes" don't survive session restarts; files do. Befo
 - You learn a lesson -> update `AGENTS.md`, `TOOLS.md`, or the relevant skill.
 - You make a mistake -> document it so future-you doesn't repeat it.
 
+## Repository Synchronization Rules (GitHub Exclusive)
+
+- **동기화 대상 원칙**: 이 워크스페이스(`iiac-BAT`)는 **옵시디언(Obsidian Sync 등 옵시디언 클라우드)에는 동기화하지 않으며, 오직 GitHub(`origin`)에만 동기화**합니다.
+- **실행 트리거**: 사용자가 **`/깃허브에 저장해줘`** 트리거 입력 시, 변경사항 확인(`git status`) -> 스테이징(`git add .`) -> 커밋(`git commit`) -> 푸시(`git push`) 프로세스를 실행하여 깃허브 원격 저장소에 업로드 동기화합니다.
+
 ## Red Lines
 
 - Don't exfiltrate private data. Ever.
